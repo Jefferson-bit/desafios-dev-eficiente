@@ -7,7 +7,7 @@ import org.example.produto.Produto;
 
 import java.math.BigDecimal;
 
-@Entity
+@Entity(name = "Oferta")
 @Table(name = "oferta")
 public class Oferta {
 
@@ -24,7 +24,7 @@ public class Oferta {
     @Column(nullable = false)
     private Integer numerosDeParcelas;
     @ManyToOne
-    @JoinColumn(name = "produto_id")
+    @JoinColumn(name = "produto_id", referencedColumnName = "id")
     private Produto produto;
     @NotNull
     @Column(nullable = false)
@@ -39,4 +39,35 @@ public class Oferta {
     @Column(nullable = false)
     private Boolean principal = true;
 
+    public void setProduto(Produto produto) {
+        this.produto = produto;
+    }
+
+    public @NotNull @Positive(message = "preco nao pode ser zero") BigDecimal getPreco() {
+        return preco;
+    }
+
+    public @Min(value = 1) @Max(value = 12) @NotNull Integer getNumerosDeParcelas() {
+        return numerosDeParcelas;
+    }
+
+    public Produto getProduto() {
+        return produto;
+    }
+
+    public @NotNull PagadorDeJurosEnum getPagadorDeJuros() {
+        return pagadorDeJuros;
+    }
+
+    public @NotBlank String getNome() {
+        return nome;
+    }
+
+    public @NotNull Boolean getAtiva() {
+        return ativa;
+    }
+
+    public Boolean getPrincipal() {
+        return principal;
+    }
 }

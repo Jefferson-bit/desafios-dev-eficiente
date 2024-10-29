@@ -10,7 +10,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.Instant;
 
-@Entity
+@Entity(name = "Cupom")
 @Table(name = "cupom")
 public class Cupom implements Serializable {
 
