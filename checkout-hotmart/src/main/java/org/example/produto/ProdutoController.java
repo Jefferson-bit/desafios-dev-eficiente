@@ -1,9 +1,11 @@
 package org.example.produto;
 
 
+import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.example.conta.ContaRepository;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -15,27 +17,21 @@ import java.util.UUID;
 @RestController
 public class ProdutoController {
 
-
     private final ContaRepository contaRepository;
-    private final ProdutoRepository produtoRepository;
 
-    public ProdutoController(ContaRepository contaRepository, ProdutoRepository produtoRepository) {
+    public ProdutoController(ContaRepository contaRepository) {
         this.contaRepository = contaRepository;
-        this.produtoRepository = produtoRepository;
     }
 
     @PostMapping("/produtos/{codigoConta}")
-    public void cadastraProduto(@RequestBody @Valid ProdutoRequest request, @PathVariable UUID codigoConta) {
+    @Transactional
+    public ResponseEntity<?> cadastraProduto(@RequestBody @Valid ProdutoRequest request, @PathVariable UUID codigoConta) {
 
         var conta = contaRepository.findByCodigoGlobal(codigoConta)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Codigo da conta nao encontrado"));
 
-        conta.getProdutos().forEach(produtoStream -> {
-            if (produtoStream.getNome().equals(request.nome()))
-                throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Nome do produto já existe para essa conta");
-        });
-
-        var produtoEntity = request.toEntity(conta);
-        produtoRepository.save(produtoEntity);
+        return conta.adicionaProduto(request.toEntity(conta),
+                success -> ResponseEntity.ok("Produto cadastrado com sucesso " + success.getCodigoGlobal()),
+                error -> ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(error));
     }
 }

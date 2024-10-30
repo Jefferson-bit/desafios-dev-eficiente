@@ -1,50 +1,25 @@
 package org.example.oferta;
 
+import jakarta.validation.constraints.*;
 import org.example.enums.PagadorDeJurosEnum;
+import org.example.produto.Produto;
 
 import java.math.BigDecimal;
 
-public class OfertaRequest {
+public record OfertaRequest(
+        @Positive
+        @NotNull
+        BigDecimal preco,
+        @Min(value = 1)
+        @Max(value = 12)
+        @NotNull
+        Integer numerosDeParcelas,
+        @NotNull
+        PagadorDeJurosEnum pagadorDeJuros,
+        @NotBlank
+        String nome) {
 
-
-    private BigDecimal preco;
-    private Integer numerosDeParcelas;
-    private PagadorDeJurosEnum pagadorDeJuros;
-    private String nome;
-    private Boolean ativa;
-    private Boolean principal;
-
-    public OfertaRequest(BigDecimal preco, Integer numerosDeParcelas, PagadorDeJurosEnum pagadorDeJuros, String nome,
-                         Boolean ativa, Boolean principal) {
-        this.preco = preco;
-        this.numerosDeParcelas = numerosDeParcelas;
-        this.pagadorDeJuros = pagadorDeJuros;
-        this.nome = nome;
-        this.ativa = ativa;
-        this.principal = principal;
-    }
-
-    public BigDecimal getPreco() {
-        return preco;
-    }
-
-    public Integer getNumerosDeParcelas() {
-        return numerosDeParcelas;
-    }
-
-    public PagadorDeJurosEnum getPagadorDeJuros() {
-        return pagadorDeJuros;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public Boolean getAtiva() {
-        return ativa;
-    }
-
-    public Boolean getPrincipal() {
-        return principal;
+    public Oferta toEntity(Produto produto) {
+        return new Oferta(this.preco, this.numerosDeParcelas, produto, this.pagadorDeJuros, this.nome);
     }
 }

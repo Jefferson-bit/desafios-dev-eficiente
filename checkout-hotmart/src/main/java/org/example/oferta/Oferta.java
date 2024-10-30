@@ -6,6 +6,7 @@ import org.example.enums.PagadorDeJurosEnum;
 import org.example.produto.Produto;
 
 import java.math.BigDecimal;
+import java.util.UUID;
 
 @Entity(name = "Oferta")
 @Table(name = "oferta")
@@ -15,18 +16,14 @@ public class Oferta {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @NotNull
-    @Positive(message = "preco nao pode ser zero")
     @Column(nullable = false)
     private BigDecimal preco;
-    @Min(value = 1)
-    @Max(value = 12)
-    @NotNull
     @Column(nullable = false)
     private Integer numerosDeParcelas;
-    @ManyToOne
-    @JoinColumn(name = "produto_id", referencedColumnName = "id")
+    private UUID codigoGlobal;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "produto_id")
     private Produto produto;
-    @NotNull
     @Column(nullable = false)
     @Enumerated(value = EnumType.ORDINAL)
     private PagadorDeJurosEnum pagadorDeJuros;
@@ -35,39 +32,58 @@ public class Oferta {
     private String nome;
     @NotNull
     @Column(nullable = false)
-    private Boolean ativa = true;
-    @Column(nullable = false)
-    private Boolean principal = true;
+    private Boolean ativa;
+    private Boolean principal;
 
-    public void setProduto(Produto produto) {
-        this.produto = produto;
+    @Deprecated
+    Oferta() {
     }
 
-    public @NotNull @Positive(message = "preco nao pode ser zero") BigDecimal getPreco() {
+    public Oferta(BigDecimal preco, Integer numerosDeParcelas, Produto produto,
+                  PagadorDeJurosEnum pagadorDeJuros, String nome) {
+        this.preco = preco;
+        this.numerosDeParcelas = numerosDeParcelas;
+        this.produto = produto;
+        this.pagadorDeJuros = pagadorDeJuros;
+        this.nome = nome;
+        this.ativa = true;
+        this.principal = false;
+        this.codigoGlobal = UUID.randomUUID();
+    }
+
+    public BigDecimal getPreco() {
         return preco;
     }
 
-    public @Min(value = 1) @Max(value = 12) @NotNull Integer getNumerosDeParcelas() {
+    public Integer getNumerosDeParcelas() {
         return numerosDeParcelas;
+    }
+
+    public UUID getCodigoGlobal() {
+        return codigoGlobal;
     }
 
     public Produto getProduto() {
         return produto;
     }
 
-    public @NotNull PagadorDeJurosEnum getPagadorDeJuros() {
+    public PagadorDeJurosEnum getPagadorDeJuros() {
         return pagadorDeJuros;
     }
 
-    public @NotBlank String getNome() {
+    public String getNome() {
         return nome;
     }
 
-    public @NotNull Boolean getAtiva() {
+    public Boolean getAtiva() {
         return ativa;
     }
 
     public Boolean getPrincipal() {
         return principal;
+    }
+
+    public void defineOfertaComoPrincipal() {
+        this.principal = true;
     }
 }

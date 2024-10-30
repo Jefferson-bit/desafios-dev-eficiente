@@ -2,10 +2,6 @@ package org.example.produto;
 
 import jakarta.validation.constraints.NotBlank;
 import org.example.conta.Conta;
-import org.example.customannotation.ValidaNomeProduto;
-import org.example.oferta.OfertaRequest;
-
-import java.util.Set;
 
 public record ProdutoRequest(
         @NotBlank

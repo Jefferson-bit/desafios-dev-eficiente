@@ -2,10 +2,11 @@ package org.example.conta;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
-import org.example.produto.Produto;
 import org.example.configuracao.Configuracao;
+import org.example.produto.Produto;
 
 import java.util.*;
+import java.util.function.Function;
 
 @Entity(name = "Conta")
 @Table(name = "conta")
@@ -32,6 +33,18 @@ public class Conta {
         this.email = email;
         this.configuracao = configuracao;
         this.codigoGlobal = UUID.randomUUID();
+    }
+
+    public <T> T adicionaProduto(Produto produto,
+                                 Function<Produto, T> onSuccess,
+                                 Function<String, T> onErro) {
+        for (Produto existente : this.produtos) {
+            if (existente.getNome().equals(produto.getNome())) {
+                return onErro.apply("Já existe um produto cadastrado com esse nome");
+            }
+        }
+        this.produtos.add(produto);
+        return onSuccess.apply(produto);
     }
 
     public Long getId() {

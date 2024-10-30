@@ -5,9 +5,11 @@ import org.example.conta.Conta;
 import org.example.cupom.Cupom;
 import org.example.oferta.Oferta;
 
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
+import java.util.function.Function;
 
 @Entity(name = "Produto")
 @Table(name = "produto")
@@ -24,12 +26,13 @@ public class Produto {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "conta_id")
     private Conta conta;
-    @OneToMany(mappedBy = "produto", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Oferta> ofertas;
+    @OneToMany(mappedBy = "produto", cascade = CascadeType.PERSIST, orphanRemoval = true)
+    private Set<Oferta> ofertas = new HashSet<>();
     private Cupom cupom;
 
     @Deprecated
-    public Produto(){}
+    public Produto() {
+    }
 
     public Produto(String nome, String descricao, Conta conta) {
         this.conta = conta;
@@ -38,14 +41,24 @@ public class Produto {
         this.codigoGlobal = UUID.randomUUID();
     }
 
-    public void addOferta(Oferta oferta){
+    public <T> T adicionaOferta(Oferta oferta,
+                                Function<Oferta, T> onSuccess,
+                                Function<String, T> onError) {
+        for (Oferta existente : this.ofertas) {
+            if (existente.getNome().equals(oferta.getNome())) {
+                return onError.apply("Já existe uma oferta cadastrada com esse nome");
+            }
+        }
         this.ofertas.add(oferta);
-        oferta.setProduto(this);
+        return onSuccess.apply(oferta);
     }
 
-    public void removeOferta(Oferta oferta){
-        this.ofertas.remove(oferta);
-        oferta.setProduto(null);
+    public boolean isOfertaPrincipal(Oferta oferta) {
+        var isNaoExisteOfertaPrincipal = this.ofertas.stream().noneMatch(Oferta::getPrincipal);
+        if (isNaoExisteOfertaPrincipal) {
+            oferta.defineOfertaComoPrincipal();
+        }
+        return isNaoExisteOfertaPrincipal;
     }
 
     public String getNome() {
@@ -64,12 +77,8 @@ public class Produto {
         return ofertas;
     }
 
-    public Cupom getCupom() {
-        return cupom;
-    }
-
-    public void setConta(Conta conta) {
-        this.conta = conta;
+    public UUID getCodigoGlobal() {
+        return codigoGlobal;
     }
 
     @Override
