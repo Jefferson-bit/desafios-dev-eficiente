@@ -27,11 +27,8 @@ public class Oferta {
     @Column(nullable = false)
     @Enumerated(value = EnumType.ORDINAL)
     private PagadorDeJurosEnum pagadorDeJuros;
-    @NotBlank
     @Column(nullable = false)
     private String nome;
-    @NotNull
-    @Column(nullable = false)
     private Boolean ativa;
     private Boolean principal;
 

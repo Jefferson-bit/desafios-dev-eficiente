@@ -28,7 +28,8 @@ public class Produto {
     private Conta conta;
     @OneToMany(mappedBy = "produto", cascade = CascadeType.PERSIST, orphanRemoval = true)
     private Set<Oferta> ofertas = new HashSet<>();
-    private Cupom cupom;
+    @OneToMany(mappedBy = "produto", cascade = CascadeType.PERSIST, orphanRemoval = true)
+    private Set<Cupom> cupons = new HashSet<>();
 
     @Deprecated
     public Produto() {
@@ -46,35 +47,35 @@ public class Produto {
                                 Function<String, T> onError) {
         for (Oferta existente : this.ofertas) {
             if (existente.getNome().equals(oferta.getNome())) {
-                return onError.apply("Já existe uma oferta cadastrada com esse nome");
+                return onError.apply("Já existe uma oferta cadastrada com esse nome para esse produto");
             }
         }
         this.ofertas.add(oferta);
         return onSuccess.apply(oferta);
     }
 
-    public boolean isOfertaPrincipal(Oferta oferta) {
+    //todo deveria generalizar? logicas identicas, mas e se no futuro tomarem rumos diferente
+    public <T> T adicionaCupom(Cupom cupom,
+                               Function<Cupom, T> onSuccess,
+                               Function<String, T> onError) {
+        for (Cupom existente : this.cupons) {
+            if (existente.getCodigoDoCupom().equals(cupom.getCodigoDoCupom())) {
+                return onError.apply("Já existe um cupom cadastrado para esse produto");
+            }
+        }
+        this.cupons.add(cupom);
+        return onSuccess.apply(cupom);
+    }
+
+    public void isOfertaPrincipal(Oferta oferta) {
         var isNaoExisteOfertaPrincipal = this.ofertas.stream().noneMatch(Oferta::getPrincipal);
         if (isNaoExisteOfertaPrincipal) {
             oferta.defineOfertaComoPrincipal();
         }
-        return isNaoExisteOfertaPrincipal;
     }
 
     public String getNome() {
         return nome;
-    }
-
-    public String getDescricao() {
-        return descricao;
-    }
-
-    public Conta getConta() {
-        return conta;
-    }
-
-    public Set<Oferta> getOfertas() {
-        return ofertas;
     }
 
     public UUID getCodigoGlobal() {
