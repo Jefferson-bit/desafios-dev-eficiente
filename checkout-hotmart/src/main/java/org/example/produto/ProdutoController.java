@@ -27,6 +27,7 @@ public class ProdutoController {
     @Transactional
     public ResponseEntity<?> cadastraProduto(@RequestBody @Valid ProdutoRequest request, @PathVariable UUID codigoConta) {
 
+        //todo torna logica generico visto que ela se repete em demais fluxos
         var conta = contaRepository.findByCodigoGlobal(codigoConta)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Codigo da conta nao encontrado"));
 

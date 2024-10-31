@@ -26,8 +26,7 @@ public class Conta {
     private Configuracao configuracao;
 
     @Deprecated
-    public Conta() {
-    }
+    Conta() {}
 
     public Conta(String email, Configuracao configuracao) {
         this.email = email;
