@@ -4,10 +4,12 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
+import org.example.exception.CupomVencidoException;
 import org.example.produto.Produto;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.Instant;
 import java.util.HashSet;
 import java.util.Random;
@@ -38,6 +40,13 @@ public class Cupom {
         this.codigoDoCupom = codigoDoCupom;
         this.vencimentoDoCupom = vencimentoDoCupom;
         this.valorDoDesconto = valorDoDesconto;
+    }
+
+    public BigDecimal aplicaDesconto(BigDecimal preco) {
+        if (vencimentoDoCupom.isBefore(Instant.now())) {
+            throw new CupomVencidoException("Esse cupom esta vencido");
+        }
+        return (preco.multiply(this.valorDoDesconto)).divide(BigDecimal.valueOf(100), 2, RoundingMode.HALF_EVEN);
     }
 
     public String getCodigoDoCupom() {

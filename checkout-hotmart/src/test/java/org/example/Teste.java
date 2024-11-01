@@ -1,26 +1,21 @@
 package org.example;
 
-import net.bytebuddy.utility.RandomString;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
-import java.time.Instant;
-import java.util.Random;
-import java.util.random.RandomGenerator;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 public class Teste {
 
     @Test
     void instant() {
-        String cadidate = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-        StringBuilder sb = new StringBuilder();
-        Random random = new Random();
-        for (int i = 0; i < 6; i++) {
-            sb.append(cadidate.charAt(random.nextInt(cadidate.length())));
-        }
+        BigDecimal preco = new BigDecimal(5000.00);
+        BigDecimal desconto = new BigDecimal(50.0);
 
-        System.out.println(sb.toString());
+        BigDecimal divide = (preco.multiply(desconto)).divide(BigDecimal.valueOf(100), 2, RoundingMode.FLOOR);
+
+        Assertions.assertEquals(61.50, divide.doubleValue());
     }
 }
 

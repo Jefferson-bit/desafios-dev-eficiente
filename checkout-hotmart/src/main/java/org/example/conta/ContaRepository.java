@@ -12,4 +12,5 @@ public interface ContaRepository extends CrudRepository<Conta, Long> {
 
 
     Optional<Conta> findByCodigoGlobal(UUID codigoGlobal);
+    Optional<Conta> findByEmail(String email);
 }

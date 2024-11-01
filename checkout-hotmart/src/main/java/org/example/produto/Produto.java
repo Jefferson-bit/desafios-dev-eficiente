@@ -82,6 +82,22 @@ public class Produto {
         return codigoGlobal;
     }
 
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public Conta getConta() {
+        return conta;
+    }
+
+    public Set<Oferta> getOfertas() {
+        return ofertas;
+    }
+
+    public Set<Cupom> getCupons() {
+        return cupons;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

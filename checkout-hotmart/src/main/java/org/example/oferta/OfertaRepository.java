@@ -1,5 +1,6 @@
 package org.example.oferta;
 
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
@@ -10,7 +11,17 @@ import java.util.UUID;
 public interface OfertaRepository extends CrudRepository<Oferta, Long> {
 
 
-    Optional<Oferta> findByCodigoGlobal(UUID codigoGlobal);
+    @Query(value = """
+            SELECT * FROM OFERTA
+             WHERE CODIGO_GLOBAL = ?1 OR (PRINCIPAL = TRUE AND
+            NOT EXISTS(
+            SELECT 1 FROM OFERTA
+             WHERE CODIGO_GLOBAL = ?1))
+            ORDER BY
+             CASE WHEN CODIGO_GLOBAL = ?1 THEN 0 ELSE 1 END
+            """, nativeQuery = true)
+    Optional<Oferta> buscaPorOferta(UUID codigoGlobal);
+
     Optional<Oferta> findByPrincipalTrue();
 
 }

@@ -4,3 +4,6 @@ INSERT INTO conta(email,codigo_global,configuracao_id) VALUES ('example@gmail.co
 INSERT INTO produto(nome,descricao,codigo_global,conta_id) VALUES ('Dev Eficiente','Curso para evolucao','46437ab2-9b3a-4996-9ddb-9e9692303f09',1);
 INSERT INTO oferta(preco,numeros_de_parcelas,codigo_global, produto_id, pagador_de_juros,nome,ativa,principal) VALUES (123.0,5,'23ff2c94-c12b-4a7e-9b0f-5c950f9896f0',1,0,'Black Friday', true, true);
 INSERT INTO cupom(produto_id,codigo_do_cupom,vencimento_do_cupom,valor_do_desconto) VALUES (1,'BMW','2024-10-30T23:00:00.000Z',12.0);
+
+
+INSERT INTO oferta(preco,numeros_de_parcelas,codigo_global, produto_id, pagador_de_juros,nome,ativa,principal) VALUES (123.0,5,'b73f968f-487f-4281-8546-92c4be05aae0',1,0,'Black Friday', true, false);

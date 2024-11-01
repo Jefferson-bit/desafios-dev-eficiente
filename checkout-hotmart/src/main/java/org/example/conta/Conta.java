@@ -62,6 +62,10 @@ public class Conta {
         return Collections.unmodifiableSet(this.produtos);
     }
 
+    public Configuracao getConfiguracao() {
+        return configuracao;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
