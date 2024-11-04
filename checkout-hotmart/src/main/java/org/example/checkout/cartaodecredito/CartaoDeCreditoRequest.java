@@ -1,10 +1,10 @@
 package org.example.checkout.cartaodecredito;
 
 import com.fasterxml.jackson.annotation.JsonTypeName;
-import org.example.compra.NovaCompraRequest;
+import org.example.checkout.CheckoutRequest;
 
 @JsonTypeName(value = "cartaoDeCredito")
-public class CartaDeCreditoRequest extends NovaCompraRequest {
+public class CartaoDeCreditoRequest extends CheckoutRequest {
 
     private Integer numeroDoCartao;
     private String nomeDoTitular;
@@ -12,9 +12,9 @@ public class CartaDeCreditoRequest extends NovaCompraRequest {
     private Integer mesDoVencimento;
     private Integer numerosDeParcelas;
 
-    public CartaDeCreditoRequest(String email, String codigoDoCupom, Integer numeroDoCartao,
-                                 String nomeDoTitular, Integer anoDoVencimento,
-                                 Integer mesDoVencimento, Integer numerosDeParcelas) {
+    public CartaoDeCreditoRequest(String email, String codigoDoCupom, Integer numeroDoCartao,
+                                  String nomeDoTitular, Integer anoDoVencimento,
+                                  Integer mesDoVencimento, Integer numerosDeParcelas) {
         super(email, codigoDoCupom);
         this.numeroDoCartao = numeroDoCartao;
         this.nomeDoTitular = nomeDoTitular;

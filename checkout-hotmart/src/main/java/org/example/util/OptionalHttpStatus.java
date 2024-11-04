@@ -7,7 +7,8 @@ import java.util.Optional;
 
 public class OptionalHttpStatus {
 
-    public static <R> R execute(R repository, HttpStatus status, String errorMesage) {
-        return Optional.ofNullable(repository).orElseThrow(() -> new ResponseStatusException(status, errorMesage));
+    //todo procurar outra maneira de n passar o optional como argumento
+    public static <R> R execute(Optional<R> repository, HttpStatus status, String errorMesage) {
+        return repository.orElseThrow(() -> new ResponseStatusException(status, errorMesage));
     }
 }

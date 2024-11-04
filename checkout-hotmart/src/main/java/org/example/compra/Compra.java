@@ -1,5 +1,6 @@
 package org.example.compra;
 
+import org.example.conta.Conta;
 import org.example.enums.MeioDePagamentoEnum;
 import org.example.oferta.Oferta;
 
@@ -8,14 +9,14 @@ import java.math.BigDecimal;
 public class Compra {
 
     private MeioDePagamentoEnum meioDePagamento;
-    private String email;
-    private String codigoDoCupom;
+    private Conta conta;
     private Oferta oferta;
 
-    public Compra(String email, Oferta oferta, MeioDePagamentoEnum meioDePagamento) {
-        this.email = email;
-        this.oferta = oferta;
+
+    public Compra(MeioDePagamentoEnum meioDePagamento, Conta conta, Oferta oferta) {
         this.meioDePagamento = meioDePagamento;
+        this.conta = conta;
+        this.oferta = oferta;
     }
 
     public void processaCheckout(BigDecimal preco, Boolean principal) {

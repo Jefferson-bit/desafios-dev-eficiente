@@ -4,13 +4,13 @@ package org.example.oferta;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.example.produto.ProdutoRepository;
+import org.example.util.OptionalHttpStatus;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.UUID;
 
@@ -26,8 +26,8 @@ public class OfertaController {
     @PostMapping("ofertas/{codigoProduto}")
     @Transactional
     public ResponseEntity<?> cadastraOferta(@RequestBody @Valid OfertaRequest request, @PathVariable("codigoProduto") UUID codigoProduto) {
-        var produto = produtoRepository.findByCodigoGlobal(codigoProduto)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Codigo do produto nao encontrado"));
+        var produto = OptionalHttpStatus.execute(produtoRepository.findByCodigoGlobal(codigoProduto),
+                HttpStatus.NOT_FOUND, "Codigo do produto nao encontrado");
 
         Oferta ofertaEntity = request.toEntity(produto);
         return produto.adicionaOferta(ofertaEntity,
