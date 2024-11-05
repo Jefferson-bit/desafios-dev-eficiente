@@ -1,0 +1,23 @@
+{
+  "priority": 2,
+  "request": {
+    "method": "POST",
+    "url": "/payment/process",
+    "bodyPatterns": [
+      {
+        "matchesJsonPath": "$[?(@.cardNumber == '4111111111111111')]"
+      },
+      {
+        "matchesJsonPath": "$[?(@.amount > 1000)]"
+      }
+    ]
+  },
+  "response": {
+    "status": 400,
+    "body": "{ \"transactionId\": \"1234567890\", \"status\": \"FAILED\", \"reason\": \"Insufficient funds\" }",
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "fixedDelayMilliseconds": 100
+  }
+}

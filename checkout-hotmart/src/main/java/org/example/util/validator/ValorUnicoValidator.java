@@ -1,4 +1,4 @@
-package org.example.util;
+package org.example.util.validator;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;

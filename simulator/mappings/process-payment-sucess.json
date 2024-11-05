@@ -1,0 +1,22 @@
+{
+  "request": {
+    "method": "POST",
+    "url": "/payment/process",
+    "bodyPatterns": [
+      {
+        "matchesJsonPath": "$[?(@.cardNumber == '4111111111111111')]"
+      },
+      {
+        "matchesJsonPath": "$[?(@.amount <= 1000)]"
+      }
+    ]
+  },
+  "response": {
+    "status": 200,
+    "body": "{ \"transactionId\": \"1234567890\", \"status\": \"SUCCESS\" }",
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "fixedDelayMilliseconds": 100
+  }
+}

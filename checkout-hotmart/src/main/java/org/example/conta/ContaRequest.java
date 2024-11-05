@@ -3,7 +3,7 @@ package org.example.conta;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import org.example.configuracao.Configuracao;
-import org.example.util.ValorUnico;
+import org.example.util.validator.ValorUnico;
 
 public record ContaRequest(
         @Email

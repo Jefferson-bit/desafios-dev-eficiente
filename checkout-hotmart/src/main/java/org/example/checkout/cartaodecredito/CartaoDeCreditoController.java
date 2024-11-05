@@ -15,23 +15,26 @@ import java.util.UUID;
 @RestController
 public class CartaoDeCreditoController {
 
-    private final TemplateFluxoCheckout processaCheckout;
+    private final TemplateFluxoCheckout templateFluxoCheckout;
 
-    public CartaoDeCreditoController(TemplateFluxoCheckout processaCheckout) {
-        this.processaCheckout = processaCheckout;
+    public CartaoDeCreditoController(TemplateFluxoCheckout templateFluxoCheckout) {
+        this.templateFluxoCheckout = templateFluxoCheckout;
     }
 
     @PostMapping("/cartaodecreditos/{codigoDaOferta}")
     public void efetuaPagamento(@RequestBody @Valid CartaoDeCreditoRequest request,
                                 @PathVariable("codigoDaOferta") UUID codigoDaOferta) {
 
-        var compra = processaCheckout.processaCheckout(codigoDaOferta, request);
+        var compra = templateFluxoCheckout.processaCheckout(codigoDaOferta, request);
+
         List<BigDecimal> bigDecimals = compra.getOferta().getPagadorDeJuros()
                 .calculaJuros(
                         compra.getOferta().getPreco(),
                         compra.getConta().getConfiguracao().getTaxaDeJuros(),
                         compra.getConta().getConfiguracao().getTaxaDeComissao(),
                         request.getNumerosDeParcelas());
+        // chama gateway de pagamento
+
 
 
     }

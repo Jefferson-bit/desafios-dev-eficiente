@@ -1,4 +1,4 @@
-package org.example.util;
+package org.example.util.validator;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
