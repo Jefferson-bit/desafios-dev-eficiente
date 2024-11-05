@@ -4,14 +4,11 @@ import org.example.conta.Conta;
 import org.example.enums.MeioDePagamentoEnum;
 import org.example.oferta.Oferta;
 
-import java.math.BigDecimal;
-
 public class Compra {
 
     private MeioDePagamentoEnum meioDePagamento;
     private Conta conta;
     private Oferta oferta;
-
 
     public Compra(MeioDePagamentoEnum meioDePagamento, Conta conta, Oferta oferta) {
         this.meioDePagamento = meioDePagamento;
@@ -19,12 +16,16 @@ public class Compra {
         this.oferta = oferta;
     }
 
-    public void processaCheckout(BigDecimal preco, Boolean principal) {
-
+    public Compra(Conta conta, Oferta oferta) {
+        this.conta = conta;
+        this.oferta = oferta;
     }
 
-    public void verificaSeExisteConta() {
-
+    public Conta getConta() {
+        return conta;
     }
 
+    public Oferta getOferta() {
+        return oferta;
+    }
 }

@@ -40,4 +40,12 @@ public class Configuracao {
     public Boolean getOpcaoPadrao() {
         return opcaoPadrao;
     }
+
+    public BigDecimal getTaxaDeComissao() {
+        return taxaDeComissao;
+    }
+
+    public BigDecimal getTaxaDeJuros() {
+        return taxaDeJuros;
+    }
 }

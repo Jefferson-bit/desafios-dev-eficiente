@@ -1,5 +1,6 @@
 package org.example.checkout;
 
+import org.example.compra.Compra;
 import org.example.cupom.CupomRepository;
 import org.example.oferta.OfertaRepository;
 import org.example.service.RegistraNovaContaService;
@@ -11,7 +12,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.UUID;
 
 @Component
-public class TemplateProcessaCheckout {
+public class TemplateFluxoCheckout {
 
     @Autowired
     private OfertaRepository ofertaRepository;
@@ -20,7 +21,7 @@ public class TemplateProcessaCheckout {
     @Autowired
     private RegistraNovaContaService contaService;
 
-    public void processaCheckout(UUID codigoDaOferta, CheckoutRequest request) {
+    public Compra processaCheckout(UUID codigoDaOferta, CheckoutRequest request) {
 
         var oferta = ofertaRepository.buscaPorOferta(codigoDaOferta)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Oferta nao encontrada"));
@@ -32,5 +33,6 @@ public class TemplateProcessaCheckout {
                     .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "nao existe codigo de cupom para esse produto"));
             cupom.aplicaDesconto(oferta.getPreco());
         }
+        return new Compra(conta, oferta);
     }
 }
