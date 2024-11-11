@@ -1,7 +1,7 @@
 package org.example.oferta;
 
 import jakarta.validation.constraints.*;
-import org.example.enums.PagadorDeJurosEnum;
+import org.example.enums.TipoPagadorDeJuros;
 import org.example.produto.Produto;
 
 import java.math.BigDecimal;
@@ -15,7 +15,7 @@ public record OfertaRequest(
         @NotNull
         Integer numerosDeParcelas,
         @NotNull
-        PagadorDeJurosEnum pagadorDeJuros,
+        TipoPagadorDeJuros pagadorDeJuros,
         @NotBlank
         String nome) {
 

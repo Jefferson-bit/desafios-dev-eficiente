@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 import java.io.File;
 
 @Component
-public class EmailServiceImpl implements EmailService {
+class EmailServiceImpl implements EmailService {
 
     private final JavaMailSender emailSender;
 
@@ -19,21 +19,21 @@ public class EmailServiceImpl implements EmailService {
         this.emailSender = emailSender;
     }
 
-    public void sendSimpleMessage(String to, String subject, String text) {
+    public void sendSimpleMessage(String mail, String to, String subject, String text) {
         SimpleMailMessage message = new SimpleMailMessage();
-        message.setFrom("noreply@baeldung.com");
+        message.setFrom(mail);
         message.setTo(to);
         message.setSubject(subject);
         message.setText(text);
         emailSender.send(message);
     }
 
-    public void sendMessageWithAttachment(String to, String subject, String text, String pathToAttachment) {
+    public void sendMessageWithAttachment(String mail, String to, String subject, String text, String pathToAttachment) {
         try {
             MimeMessage message = emailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message, true);
 
-            helper.setFrom("noreply@baeldung.com");
+            helper.setFrom(mail);
             helper.setTo(to);
             helper.setSubject(subject);
             helper.setText(text);

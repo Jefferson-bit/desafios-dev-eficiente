@@ -43,9 +43,6 @@ public class Cupom {
     }
 
     public BigDecimal aplicaDesconto(BigDecimal preco) {
-        if (vencimentoDoCupom.isBefore(Instant.now())) {
-            throw new CupomVencidoException("Esse cupom esta vencido");
-        }
         return (preco.multiply(this.valorDoDesconto)).divide(BigDecimal.valueOf(100), 2, RoundingMode.HALF_EVEN);
     }
 

@@ -43,5 +43,5 @@ server:
   error:
     include-message: always
 
-
+wiremock-cloud: https://og9g7.wiremockapi.cloud/
 

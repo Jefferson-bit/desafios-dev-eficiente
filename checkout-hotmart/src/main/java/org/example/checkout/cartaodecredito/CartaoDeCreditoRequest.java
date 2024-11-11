@@ -13,7 +13,7 @@ public class CartaoDeCreditoRequest extends CheckoutRequest {
 
     @NotNull
     @CreditCardNumber(message = "cartao de credito invalido")
-    private Integer numeroDoCartao;
+    private String numeroDoCartao;
     @NotBlank
     private String nomeDoTitular;
     @NotNull
@@ -25,10 +25,10 @@ public class CartaoDeCreditoRequest extends CheckoutRequest {
     @NotNull
     private Integer numerosDeParcelas;
 
-    public CartaoDeCreditoRequest(String email, String codigoDoCupom, Integer numeroDoCartao,
+    public CartaoDeCreditoRequest(String nome, String email, String confirmacaoEmail, String numeroDoCartao,
                                   String nomeDoTitular, Integer anoDoVencimento,
                                   Integer mesDoVencimento, Integer numerosDeParcelas) {
-        super(email, codigoDoCupom);
+        super(nome, email, confirmacaoEmail);
         this.numeroDoCartao = numeroDoCartao;
         this.nomeDoTitular = nomeDoTitular;
         this.anoDoVencimento = anoDoVencimento;
@@ -36,7 +36,7 @@ public class CartaoDeCreditoRequest extends CheckoutRequest {
         this.numerosDeParcelas = numerosDeParcelas;
     }
 
-    public Integer getNumeroDoCartao() {
+    public String getNumeroDoCartao() {
         return numeroDoCartao;
     }
 

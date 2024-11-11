@@ -1,13 +1,11 @@
 {
+  "priority": 1,
   "request": {
     "method": "POST",
     "url": "/payment/process",
     "bodyPatterns": [
       {
         "matchesJsonPath": "$[?(@.cardNumber == '4111111111111111')]"
-      },
-      {
-        "matchesJsonPath": "$[?(@.amount <= 1000)]"
       }
     ]
   },

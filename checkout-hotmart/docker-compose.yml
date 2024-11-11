@@ -6,5 +6,5 @@ services:
     ports:
       - '8383:8080'
     volumes:
-      - ./simulator/mappings:/home/wiremock/mappings
+      - ../simulator/mappings:/home/wiremock/mappings
     entrypoint: ["/docker-entrypoint.sh", "--global-response-templating", "--disable-gzip", "--verbose"]

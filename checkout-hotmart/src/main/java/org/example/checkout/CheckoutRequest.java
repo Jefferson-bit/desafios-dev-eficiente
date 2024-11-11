@@ -33,13 +33,10 @@ public class CheckoutRequest {
     @JsonProperty("codigoDoCupom")
     private String codigoDoCupom;
 
-    public CheckoutRequest(String email, String codigoDoCupom) {
+    public CheckoutRequest(String nome, String email, String confirmacaoEmail) {
+        this.nome = nome;
         this.email = email;
-        this.codigoDoCupom = codigoDoCupom;
-    }
-
-    public Compra toEntity(Oferta oferta, Conta conta) {
-        return new Compra(MeioDePagamentoEnum.CARTAO_DE_CREDITO, conta, oferta);
+        this.confirmacaoEmail = confirmacaoEmail;
     }
 
     public String getEmail() {

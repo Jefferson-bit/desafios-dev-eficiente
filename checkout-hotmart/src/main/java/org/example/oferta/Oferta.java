@@ -2,11 +2,13 @@ package org.example.oferta;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
-import org.example.enums.PagadorDeJurosEnum;
+import org.example.configuracao.Configuracao;
+import org.example.enums.TipoPagadorDeJuros;
 import org.example.produto.Produto;
 
 import java.math.BigDecimal;
 import java.util.UUID;
+import java.util.function.Supplier;
 
 @Entity(name = "Oferta")
 @Table(name = "oferta")
@@ -26,7 +28,7 @@ public class Oferta {
     private Produto produto;
     @Column(nullable = false)
     @Enumerated(value = EnumType.ORDINAL)
-    private PagadorDeJurosEnum pagadorDeJuros;
+    private TipoPagadorDeJuros pagadorDeJuros;
     @Column(nullable = false)
     private String nome;
     private Boolean ativa;
@@ -37,7 +39,7 @@ public class Oferta {
     }
 
     public Oferta(BigDecimal preco, Integer numerosDeParcelas, Produto produto,
-                  PagadorDeJurosEnum pagadorDeJuros, String nome) {
+                  TipoPagadorDeJuros pagadorDeJuros, String nome) {
         this.preco = preco;
         this.numerosDeParcelas = numerosDeParcelas;
         this.produto = produto;
@@ -64,7 +66,7 @@ public class Oferta {
         return produto;
     }
 
-    public PagadorDeJurosEnum getPagadorDeJuros() {
+    public TipoPagadorDeJuros getPagadorDeJuros() {
         return pagadorDeJuros;
     }
 

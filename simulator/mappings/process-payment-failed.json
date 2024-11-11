@@ -5,10 +5,7 @@
     "url": "/payment/process",
     "bodyPatterns": [
       {
-        "matchesJsonPath": "$[?(@.cardNumber == '4111111111111111')]"
-      },
-      {
-        "matchesJsonPath": "$[?(@.amount > 1000)]"
+        "matchesJsonPath": "$[?(@.cardNumber == '5555555555554444')]"
       }
     ]
   },
