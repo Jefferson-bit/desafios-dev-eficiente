@@ -1,14 +1,12 @@
 package org.example.oferta;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.*;
-import org.example.configuracao.Configuracao;
+import jakarta.validation.constraints.NotNull;
 import org.example.enums.TipoPagadorDeJuros;
 import org.example.produto.Produto;
 
 import java.math.BigDecimal;
 import java.util.UUID;
-import java.util.function.Supplier;
 
 @Entity(name = "Oferta")
 @Table(name = "oferta")

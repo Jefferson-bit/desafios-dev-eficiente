@@ -21,7 +21,9 @@ public class CartaoDeCreditoController {
     private final GatewayCartaoDeCredito gatewayCartao;
     private final EntityManager entityManager;
 
-    public CartaoDeCreditoController(TemplateFluxoCheckout templateFluxoCheckout, GatewayCartaoDeCredito gatewayCartao, EntityManager entityManager) {
+    public CartaoDeCreditoController(TemplateFluxoCheckout templateFluxoCheckout,
+                                     GatewayCartaoDeCredito gatewayCartao,
+                                     EntityManager entityManager) {
         this.templateFluxoCheckout = templateFluxoCheckout;
         this.gatewayCartao = gatewayCartao;
         this.entityManager = entityManager;
@@ -34,11 +36,11 @@ public class CartaoDeCreditoController {
 
         var compraBuilder = templateFluxoCheckout.processaCheckout(codigoDaOferta, request);
         var compra = compraBuilder.comCartao(request);
-//        gatewayCartao.processaPagamento(compra).subscribe();
 
+        gatewayCartao.processaPagamentoComCartao(compra).subscribe();
         entityManager.persist(compra);
 
-        return ResponseEntity.accepted().build();
+        return ResponseEntity.accepted().body("Pedido aceito. Enviaremos um e-mail com mais informações");
     }
 
 }

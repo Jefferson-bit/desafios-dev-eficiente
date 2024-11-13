@@ -6,11 +6,13 @@ import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import org.example.checkout.boleto.BoletoRequest;
 import org.example.checkout.cartaodecredito.CartaoDeCreditoRequest;
 import org.example.compra.Compra;
 import org.example.conta.Conta;
 import org.example.enums.MeioDePagamentoEnum;
 import org.example.oferta.Oferta;
+import org.example.util.validator.EmailMatch;
 
 import java.util.Optional;
 
@@ -18,8 +20,10 @@ import java.util.Optional;
         use = JsonTypeInfo.Id.NAME,
         property = "tipo")
 @JsonSubTypes({
-        @JsonSubTypes.Type(value = CartaoDeCreditoRequest.class, name = "cartaoDeCredito")
+        @JsonSubTypes.Type(value = CartaoDeCreditoRequest.class, name = "cartaoDeCredito"),
+        @JsonSubTypes.Type(value = BoletoRequest.class, name = "boleto")
 })
+@EmailMatch
 public class CheckoutRequest {
 
     @NotBlank

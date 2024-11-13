@@ -1,5 +1,6 @@
 package org.example.compra;
 
+import org.example.checkout.boleto.BoletoRequest;
 import org.example.checkout.cartaodecredito.CartaoDeCreditoRequest;
 import org.example.conta.Conta;
 import org.example.cupom.Cupom;
@@ -29,24 +30,29 @@ public final class CompraBuilder {
     }
 
     public Compra comCartao(CartaoDeCreditoRequest request) {
-        Function<Compra, MetadadosCompra> criaMetadados = compraFunction -> new MetadadosCompra(compraFunction,
-                new InfoCompraCartao(
-                        request.getNumeroDoCartao(),
-                        request.getNomeDoTitular(),
-                        compraFunction.retornaCalculoDoJuros(),
-                        request.getAnoDoVencimento(),
-                        request.getMesDoVencimento(),
-                        request.getNumerosDeParcelas()));
+        Function<Compra, MetadadosCompra> criaMetadados = compraFunction ->{
+            return new MetadadosCompra(compraFunction,
+                    new InfoCompraCartao(
+                            request.getNumeroDoCartao(),
+                            request.getNomeDoTitular(),
+                            compraFunction.retornaCalculoDoJuros(),
+                            request.getAnoDoVencimento(),
+                            request.getMesDoVencimento(),
+                            request.getNumerosDeParcelas()));
+
+        };
         if (cupom == null) {
             return new Compra(conta, oferta, criaMetadados);
         }
         return new Compra(conta, oferta, cupom, criaMetadados);
     }
 
-    public Compra comBoleto(InfoCompraBoleto infoCompraBoleto) {
+    public Compra comBoleto(BoletoRequest infoCompraBoleto) {
+        Function<Compra, MetadadosCompra> criaMetadados = compraFunction -> new MetadadosCompra(compraFunction,
+                new InfoCompraBoleto());
         if (cupom != null) {
-            return new Compra(conta, oferta, cupom, compraFunction -> new MetadadosCompra(compraFunction, infoCompraBoleto));
+            return new Compra(conta, oferta, cupom, criaMetadados);
         }
-        return new Compra(conta, oferta, compraFunction -> new MetadadosCompra(compraFunction, infoCompraBoleto));
+        return new Compra(conta, oferta, criaMetadados);
     }
 }

@@ -9,16 +9,15 @@ import java.time.LocalDate;
 public class InfoCompraBoleto {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String cpf;
     private String codigoBoleto;
     private BigDecimal valor;
     private LocalDate dataDaExpiracao;
-    @OneToOne(fetch = FetchType.LAZY)
-    @MapsId
-    private MetadadosCompra metadadosCompra;
 
-    public InfoCompraBoleto(){}
+    public InfoCompraBoleto() {
+    }
 
     public InfoCompraBoleto(String cpf, String codigoBoleto, BigDecimal valor, LocalDate dataDaExpiracao) {
         this.cpf = cpf;

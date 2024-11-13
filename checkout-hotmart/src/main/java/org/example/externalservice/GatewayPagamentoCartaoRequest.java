@@ -1,16 +1,22 @@
 package org.example.externalservice;
 
-import org.example.checkout.cartaodecredito.CartaoDeCreditoRequest;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.example.compra.InfoCompraCartao;
 
 import java.math.BigDecimal;
 
 public record GatewayPagamentoCartaoRequest(
+        @JsonProperty("numeroDoCartao")
         String numeroDoCartao,
+        @JsonProperty("nomeDoTitular")
         String nomeDoTitular,
+        @JsonProperty("anoDoVencimento")
         Integer anoDoVencimento,
+        @JsonProperty("mesDoVencimento")
         Integer mesDoVencimento,
+        @JsonProperty("valorParcela")
         BigDecimal valorParcela,
+        @JsonProperty("numerosDeParcelas")
         Integer numerosDeParcelas) {
 
 

@@ -29,7 +29,7 @@ public class Compra {
     private String codigoDaOferta;
     private BigDecimal taxaDejuros;
     private TipoPagadorDeJuros quemPagaOJuros;
-    @OneToOne(mappedBy = "compra", cascade = {CascadeType.PERSIST}, fetch = FetchType.LAZY,optional = false)
+    @OneToOne(mappedBy = "compra", cascade = {CascadeType.PERSIST}, fetch = FetchType.LAZY, optional = false)
     private MetadadosCompra metadadosCompra;
     @OneToMany(mappedBy = "compra", cascade = {CascadeType.MERGE, CascadeType.PERSIST}, orphanRemoval = true)
     private List<TransacaoCompra> transacoes = new ArrayList<>();
@@ -60,7 +60,11 @@ public class Compra {
         return metadadosCompra;
     }
 
-    public BigDecimal retornaCalculoDoJuros(){
+    public Conta getConta() {
+        return conta;
+    }
+
+    public BigDecimal retornaCalculoDoJuros() {
         return this.quemPagaOJuros.getCalculoJuros().calcularJuros(this.oferta, this.conta.getConfiguracao());
     }
 }
